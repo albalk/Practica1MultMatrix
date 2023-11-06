@@ -2,11 +2,6 @@
 #include <thread>
 #include "multMatrix_imp.h"
 
-typedef struct matrix_t{
-    int rows;
-    int cols;
-    int* data;
-}matrix_t;
 
 void atiendeCliente (int clientId){
     //crear interfaz de cliente

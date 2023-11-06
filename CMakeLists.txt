@@ -11,4 +11,3 @@ target_link_libraries(serverMultMatrix pthread)
 project(clientMultMatrix LANGUAGES CXX)
 add_executable(clientMultMatrix utils.h utils.cpp clientMultMatrix.cpp multMatrix_stub.h operaciones.h)
 target_link_libraries(clientMultMatrix pthread)
-

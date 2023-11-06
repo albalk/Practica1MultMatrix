@@ -56,17 +56,6 @@ CMAKE_BINARY_DIR = /home/ubuntu/Practica1/multMatrix
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -77,6 +66,17 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -111,32 +111,6 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named clientMultMatrix
-
-# Build rule for target.
-clientMultMatrix: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 clientMultMatrix
-.PHONY : clientMultMatrix
-
-# fast build rule for target.
-clientMultMatrix/fast:
-	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/build
-.PHONY : clientMultMatrix/fast
-
-#=============================================================================
-# Target rules for targets named multMatrix
-
-# Build rule for target.
-multMatrix: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 multMatrix
-.PHONY : multMatrix
-
-# fast build rule for target.
-multMatrix/fast:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/build
-.PHONY : multMatrix/fast
-
-#=============================================================================
 # Target rules for targets named serverMultMatrix
 
 # Build rule for target.
@@ -148,6 +122,19 @@ serverMultMatrix: cmake_check_build_system
 serverMultMatrix/fast:
 	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/build
 .PHONY : serverMultMatrix/fast
+
+#=============================================================================
+# Target rules for targets named clientMultMatrix
+
+# Build rule for target.
+clientMultMatrix: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 clientMultMatrix
+.PHONY : clientMultMatrix
+
+# fast build rule for target.
+clientMultMatrix/fast:
+	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/build
+.PHONY : clientMultMatrix/fast
 
 clientMultMatrix.o: clientMultMatrix.cpp.o
 
@@ -176,40 +163,13 @@ clientMultMatrix.cpp.s:
 	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/clientMultMatrix.cpp.s
 .PHONY : clientMultMatrix.cpp.s
 
-main_multMatrix.o: main_multMatrix.cpp.o
-
-.PHONY : main_multMatrix.o
-
-# target to build an object file
-main_multMatrix.cpp.o:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/main_multMatrix.cpp.o
-.PHONY : main_multMatrix.cpp.o
-
-main_multMatrix.i: main_multMatrix.cpp.i
-
-.PHONY : main_multMatrix.i
-
-# target to preprocess a source file
-main_multMatrix.cpp.i:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/main_multMatrix.cpp.i
-.PHONY : main_multMatrix.cpp.i
-
-main_multMatrix.s: main_multMatrix.cpp.s
-
-.PHONY : main_multMatrix.s
-
-# target to generate assembly for a file
-main_multMatrix.cpp.s:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/main_multMatrix.cpp.s
-.PHONY : main_multMatrix.cpp.s
-
 multmatrix.o: multmatrix.cpp.o
 
 .PHONY : multmatrix.o
 
 # target to build an object file
 multmatrix.cpp.o:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/multmatrix.cpp.o
+	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/multmatrix.cpp.o
 .PHONY : multmatrix.cpp.o
 
 multmatrix.i: multmatrix.cpp.i
@@ -218,7 +178,7 @@ multmatrix.i: multmatrix.cpp.i
 
 # target to preprocess a source file
 multmatrix.cpp.i:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/multmatrix.cpp.i
+	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/multmatrix.cpp.i
 .PHONY : multmatrix.cpp.i
 
 multmatrix.s: multmatrix.cpp.s
@@ -227,7 +187,7 @@ multmatrix.s: multmatrix.cpp.s
 
 # target to generate assembly for a file
 multmatrix.cpp.s:
-	$(MAKE) -f CMakeFiles/multMatrix.dir/build.make CMakeFiles/multMatrix.dir/multmatrix.cpp.s
+	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/multmatrix.cpp.s
 .PHONY : multmatrix.cpp.s
 
 serverMultMatrix.o: serverMultMatrix.cpp.o
@@ -263,8 +223,8 @@ utils.o: utils.cpp.o
 
 # target to build an object file
 utils.cpp.o:
-	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.o
 	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/utils.cpp.o
+	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -273,8 +233,8 @@ utils.i: utils.cpp.i
 
 # target to preprocess a source file
 utils.cpp.i:
-	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.i
 	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/utils.cpp.i
+	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -283,8 +243,8 @@ utils.s: utils.cpp.s
 
 # target to generate assembly for a file
 utils.cpp.s:
-	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.s
 	$(MAKE) -f CMakeFiles/serverMultMatrix.dir/build.make CMakeFiles/serverMultMatrix.dir/utils.cpp.s
+	$(MAKE) -f CMakeFiles/clientMultMatrix.dir/build.make CMakeFiles/clientMultMatrix.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 # Help Target
@@ -293,17 +253,13 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... rebuild_cache"
-	@echo "... clientMultMatrix"
-	@echo "... multMatrix"
 	@echo "... edit_cache"
 	@echo "... serverMultMatrix"
+	@echo "... rebuild_cache"
+	@echo "... clientMultMatrix"
 	@echo "... clientMultMatrix.o"
 	@echo "... clientMultMatrix.i"
 	@echo "... clientMultMatrix.s"
-	@echo "... main_multMatrix.o"
-	@echo "... main_multMatrix.i"
-	@echo "... main_multMatrix.s"
 	@echo "... multmatrix.o"
 	@echo "... multmatrix.i"
 	@echo "... multmatrix.s"

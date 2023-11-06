@@ -11,7 +11,7 @@ typedef struct matrix_t{
     int cols;
     int* data;
 }matrix_t;
-
+/*
 void sendStringOp(int serverId, std::string dato, personaOp op){ //generaliza el envio de datos
     std::vector<unsigned char> rpcOut;
     std::vector<unsigned char> rpcIn;
@@ -47,7 +47,7 @@ void recvStringOp(int serverId, std::string dato, personaOp op){ //generaliza el
         dato.resize(tam);
         unpackv(rpcIn, (char*)dato.data(), tam);
     }
-}
+}*/
 
 //solo se encarga de comunicaciones
 class multMatrix {
@@ -102,10 +102,10 @@ class multMatrix {
                 //empaquetar nombre de funcion
                 pack(rpcOut, op);
                 //empaquetar el tamaño del fichero
-                int tam = fileName.length()+1;
-                pack(rpcOut, tam);
+                //int tam = fileName.length()+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                //pack(rpcOut, tam);
                 //empaquetar nombre del fichero
-                packv(rpcOut, fileName.data(), tam);
+                //packv(rpcOut, fileName.data(), tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
                 //enviar paquete
                 sendMSG(serverConection.serverId, rpcOut);
             
@@ -114,8 +114,10 @@ class multMatrix {
                 recvMSG(serverConection.serverId,  rpcIn);
                 //crear la estructura resultado
                 matrix_t* m=new matrix_t[1];
-                m->rows=rows;
-                m->cols=cols;
+                
+                //NO FUNCIONA PORQUE ROWS Y COLS NO ESTÁN DEFINIDOS NI SE PASAN
+                //m->rows=rows;
+                //m->cols=cols;
                 m->data=nullptr;
 
             //rellenarla desempaquetando datos
@@ -127,7 +129,7 @@ class multMatrix {
                 }else{
                     //coger el tamaño
                     //redimensionar la variable
-                    m->data=new int[rows*cols];
+                    //m->data=new int[rows*cols];
                     //desempaquetar
                     unpackv(rpcOut, m->data, m->rows * m->cols);
                 }
@@ -193,10 +195,10 @@ class multMatrix {
                 pack(rpcOut, m->rows);
                 pack(rpcOut, m->cols);
                 //empaquetar el tamaño del fichero
-                int tam = fileName.length()+1;
-                pack(rpcOut, tam);
+                //int tam = fileName.length()+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                //pack(rpcOut, tam);
                 //empaquetar nombre del fichero
-                packv(rpcOut, fileName.data(), tam);
+                //packv(rpcOut, fileName.data(), tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
                    
         };
         

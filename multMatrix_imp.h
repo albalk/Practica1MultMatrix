@@ -33,7 +33,7 @@ class multMatrix_imp{
         //recibe operaciones
         recvMSG(clientId, rpcIn);
         multMatrixOp operacion = unpack<multMatrixOp>(rpcIn);
-        std::cout<<"Después de recibir mensaje\n";
+        //std::cout<<"Después de recibir mensaje\n";
 
         //ejecuta
         switch(operacion){
@@ -51,7 +51,7 @@ class multMatrix_imp{
                 int tam = unpack<int>(rpcIn);
                 std::string fileName;
                 unpackv(rpcIn, (char*)fileName.data(), tam);
-                m=readMatrix(fileName);
+                //m=readMatrix(fileName);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
@@ -73,7 +73,7 @@ class multMatrix_imp{
                 int numFilas2 = unpack<int>(rpcIn);
                 int numColumnas2 =  unpack<int>(rpcIn);
                 //matriz resultado
-                m=multMatrices(m1, m2);
+                //m=multMatrices(m1, m2);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
@@ -94,7 +94,7 @@ class multMatrix_imp{
                 matrix_t* m;
                 int numFilas = unpack<int>(rpcIn);
                 int numColumnas =  unpack<int>(rpcIn);
-                m=createIdentity(numFilas, numColumnas);
+                //m=createIdentity(numFilas, numColumnas);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
@@ -109,7 +109,7 @@ class multMatrix_imp{
                 matrix_t* m;
                 int numFilas = unpack<int>(rpcIn);
                 int numColumnas =  unpack<int>(rpcIn);
-                m=createRandMatrix(numFilas, numColumnas);
+                //m=createRandMatrix(numFilas, numColumnas);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
