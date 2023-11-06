@@ -55,7 +55,6 @@ class multMatrix {
         std::string ip="172.31.50.30";
         int port=60000;
         connection_t serverConection;
-
     public:
         multMatrix(){ //constructor
             //conectar con servidor
@@ -103,10 +102,10 @@ class multMatrix {
                 //empaquetar nombre de funcion
                 pack(rpcOut, op);
                 //empaquetar el tamaño del fichero
-                int tam = strlen(fileName)+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                int tam = strlen(fileName)+1;
                 pack(rpcOut, tam);
                 //empaquetar nombre del fichero
-                packv(rpcOut, fileName, tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                packv(rpcOut, fileName, tam);
                 //enviar paquete
                 sendMSG(serverConection.serverId, rpcOut);
             
@@ -116,11 +115,10 @@ class multMatrix {
                 //crear la estructura resultado
                 matrix_t* m=new matrix_t[1];
                 
-                //NO FUNCIONA PORQUE ROWS Y COLS NO ESTÁN DEFINIDOS NI SE PASAN
                 m->rows=unpack<int>(rpcIn);
                 m->cols=unpack<int>(rpcIn);
                 m->data=new int [m->rows * m->cols];
-                unpackv(rpcIn, m->data, m->rows * m->cols)
+                unpackv(rpcIn, m->data, m->rows * m->cols);
 
             //rellenarla desempaquetando datos
                 //desempaquetar ok
@@ -197,7 +195,7 @@ class multMatrix {
                 pack(rpcOut, m->rows);
                 pack(rpcOut, m->cols);
                 //empaquetar el tamaño del fichero
-                int tam = strlen(fileName)+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                int tam = strlen(fileName)+1;
                 pack(rpcOut, tam);
                 //empaquetar nombre del fichero
                 packv(rpcOut, fileName, tam);
@@ -205,13 +203,12 @@ class multMatrix {
                 sendMSG(serverConection.serverId, rpcOut);
             
             //recibir numero de filas y columnas en la estructura
-                //recibir paquete
-                recvMSG(serverConection.serverId,  rpcIn);
-
+                //desempaquetar ok
+                int ok = unpack<unsigned char>(rpcIn);
+                //si no es ok error
                 if(ok!=MSG_OK){
                     std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
-                }
-                   
+                }      
         };
         
         matrix_t *createIdentity(int rows, int cols){

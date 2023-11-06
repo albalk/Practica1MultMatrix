@@ -47,24 +47,24 @@ class multMatrix_imp{
                 pack(rpcOut, (unsigned char)MSG_OK);
             }break;
             case readMatrixOp:{ //Cambiar para recibir un string
-                matrix_t* m;
+                matrix_t* mres;
                 int tam = unpack<int>(rpcIn);
                 char fileName[tam];
                 unpackv(rpcIn, (char*)fileName, tam);
-                m= m->readMatrix(fileName);
+                mres = m->readMatrix(fileName);
 
-                pack(rpcOut, m->rows);
-                pack(rpcOut, m->cols);
+                pack(rpcOut, mres->rows);
+                pack(rpcOut, mres->cols);
                 
-                packv(rpcOut, m->data, m->rows * m->cols);
+                packv(rpcOut, mres->data, mres->rows * mres->cols);
                 pack(rpcOut, (unsigned char)MSG_OK);
 
                 //liberar memoria
-                freeMatrix(m);
+                freeMatrix(mres);
             }break;
             case multMatricesOp:{
                 //crear matrices resultado, 1 y 2
-                matrix_t* m;
+                matrix_t* mres;
                 matrix_t* m1;
                 matrix_t* m2;
                 //desempaquetar el num rows y cols de m1
@@ -74,51 +74,62 @@ class multMatrix_imp{
                 int numFilas2 = unpack<int>(rpcIn);
                 int numColumnas2 =  unpack<int>(rpcIn);
                 //matriz resultado
-                //m = m->multMatrices(&m1, &m2);
+                mres = m->multMatrices(m1, m2);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
                 //pack(rpcOut, m->cols);
-                packv(rpcOut, m->data, m->rows * m->cols);
+                packv(rpcOut, mres->data, mres->rows * mres->cols);
                 
                 //liberar memoria
-                freeMatrix(m);
+                freeMatrix(mres);
                 freeMatrix(m1);
                 freeMatrix(m2);
             }break;
             case writeMatrixOp:{
-                /*matrix_t* m;
-                int numFilas = unpack<int>(rpcIn);
-                int numColumnas =  unpack<int>(rpcIn);*/
+                matrix_t* mres;
+                int tam = unpack<int>(rpcIn);
+                char fileName[tam];
+                unpackv(rpcIn, (char*)fileName, tam);
+                mres = m->writeMatrix(mres, &fileName); //ERROR AL ENVIAR LOS PARAMETROS
+
+                pack(rpcOut, mres->rows);
+                pack(rpcOut, mres->cols);
+                
+                packv(rpcOut, mres->data, mres->rows * mres->cols);
+                pack(rpcOut, (unsigned char)MSG_OK);
+
+                //liberar memoria
+                freeMatrix(mres);
             }break;
             case createIdentityOp:{
-                matrix_t* m;
+                matrix_t* mres;
                 int numFilas = unpack<int>(rpcIn);
                 int numColumnas =  unpack<int>(rpcIn);
-                //m=createIdentity(numFilas, numColumnas);
+                mres = m->createIdentity(numFilas, numColumnas);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
                 //pack(rpcOut, m->cols);
-                packv(rpcOut, m->data, m->rows * m->cols);
+                packv(rpcOut, mres->data, mres->rows * mres->cols);
 
                 //liberar memoria
-                freeMatrix(m);
+                freeMatrix(mres);
             }break;
             case createRandMatrixOp:{
 
-                matrix_t* m;
+                matrix_t* mres;
                 int numFilas = unpack<int>(rpcIn);
                 int numColumnas =  unpack<int>(rpcIn);
-                //m=createRandMatrix(numFilas, numColumnas);
+                mres = m->createRandMatrix(numFilas, numColumnas);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
                 //pack(rpcOut, m->cols);
-                packv(rpcOut, m->data, m->rows * m->cols);
+                packv(rpcOut, mres->data, mres->rows * mres->cols);
                 
                 //liberar memoria
-                freeMatrix(m);
+                freeMatrix(mres);
             }break;
             default:{
                 std::cout<<"Error: funcion no definida\n";
