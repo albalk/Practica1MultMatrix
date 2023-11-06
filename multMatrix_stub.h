@@ -55,6 +55,7 @@ class multMatrix {
         std::string ip="172.31.50.30";
         int port=60000;
         connection_t serverConection;
+
     public:
         multMatrix(){ //constructor
             //conectar con servidor
@@ -102,10 +103,10 @@ class multMatrix {
                 //empaquetar nombre de funcion
                 pack(rpcOut, op);
                 //empaquetar el tamaño del fichero
-                //int tam = fileName.length()+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
-                //pack(rpcOut, tam);
+                int tam = strlen(fileName)+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                pack(rpcOut, tam);
                 //empaquetar nombre del fichero
-                //packv(rpcOut, fileName.data(), tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                packv(rpcOut, fileName, tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
                 //enviar paquete
                 sendMSG(serverConection.serverId, rpcOut);
             
@@ -116,9 +117,10 @@ class multMatrix {
                 matrix_t* m=new matrix_t[1];
                 
                 //NO FUNCIONA PORQUE ROWS Y COLS NO ESTÁN DEFINIDOS NI SE PASAN
-                //m->rows=rows;
-                //m->cols=cols;
-                m->data=nullptr;
+                m->rows=unpack<int>(rpcIn);
+                m->cols=unpack<int>(rpcIn);
+                m->data=new int [m->rows * m->cols];
+                unpackv(rpcIn, m->data, m->rows * m->cols)
 
             //rellenarla desempaquetando datos
                 //desempaquetar ok
@@ -195,10 +197,20 @@ class multMatrix {
                 pack(rpcOut, m->rows);
                 pack(rpcOut, m->cols);
                 //empaquetar el tamaño del fichero
-                //int tam = fileName.length()+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
-                //pack(rpcOut, tam);
+                int tam = strlen(fileName)+1; //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                pack(rpcOut, tam);
                 //empaquetar nombre del fichero
-                //packv(rpcOut, fileName.data(), tam); //NO FUNCIONA PORQUE ES CONSTCHAR Y NO STRING
+                packv(rpcOut, fileName, tam);
+                //enviar paquete
+                sendMSG(serverConection.serverId, rpcOut);
+            
+            //recibir numero de filas y columnas en la estructura
+                //recibir paquete
+                recvMSG(serverConection.serverId,  rpcIn);
+
+                if(ok!=MSG_OK){
+                    std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
+                }
                    
         };
         

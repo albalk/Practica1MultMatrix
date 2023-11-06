@@ -49,14 +49,15 @@ class multMatrix_imp{
             case readMatrixOp:{ //Cambiar para recibir un string
                 matrix_t* m;
                 int tam = unpack<int>(rpcIn);
-                std::string fileName;
-                unpackv(rpcIn, (char*)fileName.data(), tam);
-                //m=readMatrix(fileName);
+                char fileName[tam];
+                unpackv(rpcIn, (char*)fileName, tam);
+                m= m->readMatrix(fileName);
+
+                pack(rpcOut, m->rows);
+                pack(rpcOut, m->cols);
                 
-                pack(rpcOut, (unsigned char)MSG_OK);
-                //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
-                //pack(rpcOut, m->cols);
                 packv(rpcOut, m->data, m->rows * m->cols);
+                pack(rpcOut, (unsigned char)MSG_OK);
 
                 //liberar memoria
                 freeMatrix(m);
@@ -73,7 +74,7 @@ class multMatrix_imp{
                 int numFilas2 = unpack<int>(rpcIn);
                 int numColumnas2 =  unpack<int>(rpcIn);
                 //matriz resultado
-                //m=multMatrices(m1, m2);
+                //m = m->multMatrices(&m1, &m2);
                 
                 pack(rpcOut, (unsigned char)MSG_OK);
                 //pack(rpcOut, m->rows); no es necesario porque ya las tenemos (se envian por parametros)
