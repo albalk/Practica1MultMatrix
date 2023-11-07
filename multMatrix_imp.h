@@ -91,7 +91,7 @@ class multMatrix_imp{
                 int tam = unpack<int>(rpcIn);
                 char fileName[tam];
                 unpackv(rpcIn, (char*)fileName, tam);
-                mres = m->writeMatrix(mres, &fileName); //ERROR AL ENVIAR LOS PARAMETROS
+                m->writeMatrix(mres, fileName); //ERROR AL ENVIAR LOS PARAMETROS
 
                 pack(rpcOut, mres->rows);
                 pack(rpcOut, mres->cols);

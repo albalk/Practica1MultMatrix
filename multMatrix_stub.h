@@ -11,43 +11,6 @@ typedef struct matrix_t{
     int cols;
     int* data;
 }matrix_t;
-/*
-void sendStringOp(int serverId, std::string dato, personaOp op){ //generaliza el envio de datos
-    std::vector<unsigned char> rpcOut;
-    std::vector<unsigned char> rpcIn;
-
-    pack(rpcOut, op);
-
-    int tam=dato.length()+1;
-    pack(rpcOut, tam);
-
-    packv(rpcOut, dato.data(), tam);
-
-    sendMSG(serverId, rpcOut);
-    recvMSG(serverId,  rpcIn);
-
-    if(rpcIn[0]!=MSG_OK){
-        std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
-    }
-}
-
-void recvStringOp(int serverId, std::string dato, personaOp op){ //generaliza el envio de datos
-    std::vector<unsigned char> rpcOut;
-    std::vector<unsigned char> rpcIn;
-
-    pack(rpcOut, op);
-    sendMSG(serverId, rpcOut);
-
-    recvMSG(serverId,  rpcIn);
-    unsigned char ok = unpack<unsigned char>(rpcIn);
-    if(ok!=MSG_OK){
-        std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
-    }else{
-        int tam=unpack<int>(rpcIn);
-        dato.resize(tam);
-        unpackv(rpcIn, (char*)dato.data(), tam);
-    }
-}*/
 
 //solo se encarga de comunicaciones
 class multMatrix {
