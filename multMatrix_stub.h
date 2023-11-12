@@ -26,12 +26,14 @@ class multMatrix {
             std::vector<unsigned char> rpcOut;
             std::vector<unsigned char> rpcIn;
 
-            pack(rpcOut, op);
+            pack(rpcOut, op); //empaqueta la operacion
 
+            //enviar paquete
             sendMSG(serverConection.serverId, rpcOut);
+            //recibir paquete
             recvMSG(serverConection.serverId, rpcIn);
 
-            int ok = unpack<unsigned char>(rpcIn);
+            int ok = unpack<unsigned char>(rpcIn); //desempaqueta MSG_OK
             //si no es ok error
             if(ok!=MSG_OK){
                 std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
@@ -45,16 +47,20 @@ class multMatrix {
             std::vector<unsigned char> rpcOut;
             std::vector<unsigned char> rpcIn;
 
-            pack(rpcOut, op);
+            pack(rpcOut, op); //empaqueta la operacion
 
+            //enviar paquete
             sendMSG(serverConection.serverId, rpcOut);
+            //recibir paquete
             recvMSG(serverConection.serverId,  rpcIn);
 
-            if(rpcIn[0]!=MSG_OK){
+            int ok = unpack<unsigned char>(rpcIn); //desempaqueta MSG_OK
+            //si no es ok error
+            if(ok!=MSG_OK){
                 std::cout<<"Error"<<__FILE__<<":"<<__LINE__<<"\n";
             }
 
-            closeConnection(serverConection.serverId);
+            closeConnection(serverConection.serverId); //cierra la conexión
 
         };
 
@@ -74,6 +80,7 @@ class multMatrix {
 
                 //empaquetar nombre del fichero
                 packv(rpcOut, fileName, tam);
+
                 //enviar paquete
                 sendMSG(serverConection.serverId, rpcOut);
             
@@ -83,12 +90,15 @@ class multMatrix {
                 //crear la estructura resultado
                 matrix_t* m=new matrix_t[1];
                 
+            //rellenarla desempaquetando datos
+                //desempaqueta las dimensiones de la matriz 
                 m->rows=unpack<int>(rpcIn);
                 m->cols=unpack<int>(rpcIn);
+                //reserva memoria para las nuevas dimensiones
                 m->data=new int [m->rows * m->cols];
+                //desempaqueta el contenido
                 unpackv(rpcIn, m->data, m->rows * m->cols);
 
-            //rellenarla desempaquetando datos
                 //desempaquetar ok
                 int ok = unpack<unsigned char>(rpcIn);
                 //si no es ok error
@@ -113,10 +123,12 @@ class multMatrix {
                 //empaquetar filas y columnas de m1
                 pack(rpcOut, m1->rows);
                 pack(rpcOut, m1->cols);
+                //empaquetar el contenido de m1
                 packv(rpcOut, m1->data, m1->rows * m1->cols);
                 //empaquetar filas y columnas de m2
                 pack(rpcOut, m2->rows);
                 pack(rpcOut, m2->cols);
+                //empaquetar el contenido de m2
                 packv(rpcOut, m2->data, m2->rows * m2->cols);
                 //enviar paquete
                 sendMSG(serverConection.serverId, rpcOut);
@@ -139,7 +151,7 @@ class multMatrix {
                 //coger el tamaño
                     //redimensionar la variable
                     m->data=new int[m1->rows*m2->cols];
-                    //desempaquetar
+                    //desempaquetar el contenido
                     unpackv(rpcIn, m->data, m->rows * m->cols);
                 //si no es ok error
                 if(ok!=MSG_OK){
